@@ -82,13 +82,13 @@ td.outer {
 }
 
 .item1 { grid-area: header; }
-.item2 { grid-area: left1; width: min-content; }
-.item2a { grid-area: left2; width: min-content;}
-.item2b { grid-area: left3; width: min-content;}
+.item2 { grid-area: left1; xwidth: min-content; }
+.item2a { grid-area: left2; xwidth: min-content;}
+.item2b { grid-area: left3; xwidth: min-content;}
 .item3 { grid-area: main; }
-.item4 { grid-area: right1;  width: min-content; }
-.item4a { grid-area: right2;  width: min-content;}
-.item4b { grid-area: right3; width: min-content; }
+.item4 { grid-area: right1;  xwidth: min-content; }
+.item4a { grid-area: right2;  xwidth: min-content;}
+.item4b { grid-area: right3; xwidth: min-content; }
 .item5 { grid-area: footer; }
 
 .grid-container {
@@ -99,7 +99,7 @@ td.outer {
     'left2 main main main main main main right2'
     'left3 main main main main main main right3'
     'left footer footer footer footer footer footer right';
-  grid-gap: 10px;
+  grid-gap: 2px;
   background-color: #2196F3;
   padding: 10px;
 }
@@ -107,8 +107,9 @@ td.outer {
 .grid-container > div {
   background-color: rgba(255, 255, 255, 0.8);
   text-align: center;
-  padding: 20px 0;
+  padding: 10px 0;
   font-size: 30px;
+  font: arial
   box-sizing: border-box;
 }
 
@@ -120,9 +121,12 @@ td.outer {
 
 
 <script type="text/python">
-import bib2
+import bib
 
-bib2.frontPage()
+
+#bib.loadConfig()
+bib.frontPage()
+bib.fastConfig()
 
 </script>
 

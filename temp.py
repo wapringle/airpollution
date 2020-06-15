@@ -1,4 +1,8 @@
-import bib
+from browser import document, html, window, alert, timer, ajax
+
+import pprint
+
+#import bib
 import json
 """
 with open("img/bib.jsonld", 'r') as stream:
@@ -33,5 +37,14 @@ bib.displayPic( {
   })    
     
 """
-import bib2
-bib2.frontPage()
+
+config=[]
+with open("config/bib.jsonld", 'r') as stream:
+    try:
+        config=json.load(stream)
+    except json.JSONDecodeError as exc:
+        print(exc)
+
+pprint.pprint(config[0])
+import bib, bib2
+bib.displayPic(document,config[0])
