@@ -1,0 +1,59 @@
+{
+  "pic1": {
+    "picture": "img/1-BiB-Slide.png", 
+    "ratio": 2.6,
+    "highlights": [
+      {
+        "tlx_pc": 1,
+        "tly_pc": 19,
+        "brx_pc": 9,
+        "bry_pc": 35,
+        "text": "The atmosphere acts like a jacket to keep the planet warm.  If there was no atmosphere the Earth would be about -18 C. Brr", 
+        }, {
+        "tlx_pc": 41,
+        "tly_pc": 70,
+        "brx_pc": 49,
+        "bry_pc": 85,
+        "text": "If the earth was the size on an apple, the atmosphere would be thinner than the skin of the apple."
+        },
+    ]
+  }, 
+  "pic2": {
+    "picture": "img/2-BiB-Slide.png", 
+    "startX": 100,
+    "startY": 300,
+    "width": 882,
+    "height": 340,
+    "highlights": [ {
+        "tlx_pc": 49,
+        "tly_pc": 75,
+        "brx_pc": 56,
+        "bry_pc": 88,
+        "text": "The atmosphere acts like a jacket to keep the planet warm.  If there was no atmosphere the Earth would be about -18 C. Brr", 
+        }, {
+        "tlx_pc": 86,
+        "tly_pc": 75,
+        "brx_pc": 92,
+        "bry_pc": 91,
+        "text": "If the earth was the size on an apple, the atmosphere would be thinner than the skin of the apple."
+        }
+    ]
+  }, 
+  "pic3": {
+    "picture": "img/traffic.png", 
+    "startX": 100,
+    "startY": 200,
+    "width": 680,
+    "height": 500,
+    "highlights": [
+      "427 100 590 200 This is a factory", 
+      "345 231 426 300 This is a tractor", 
+      "467 267 666 380 This is a bus", 
+      "275 340 451 436 This is a lorry", 
+      "71 336 221 436 This is a car", 
+      "0 200 162 336 This is a house", 
+      "104 116 269 210 These are trees", 
+      "8 16 103 86 This is an aircraft"
+    ]
+  }
+}

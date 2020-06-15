@@ -1,0 +1,131 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <!-- These load the Brython python to javascript convertor -->
+    <script type="text/javascript"
+        src="https://cdn.jsdelivr.net/npm/brython@3.8.9/brython.min.js">
+    </script> 
+    <script type="text/javascript"
+        src="https://cdn.jsdelivr.net/npm/brython@3.8.9/brython_stdlib.js">
+    </script> 
+    <script type="text/javascript"
+        src="pic.js">
+    </script> 
+    
+<!-- Stylesheet plagarised from https://www.w3schools.com/howto/howto_css_tooltip.asp -->    
+<style>
+div.border {
+  background-color: lightgrey;
+  width: 100%;
+  border: 15px solid green;
+  padding: 50px;
+  margin: 20px;
+  box-sizing: border-box;
+}
+td.outer {
+    border-style:solid;
+    background: tomato;
+}
+
+.dir {
+    font-size: xx-large;
+    font-stretch: ultra-condensed;
+    background-color: rgba(255, 255, 255, 0.8);
+
+}
+
+.button {
+  background-color: rgba(255, 255, 255, 0.8);
+  text-align: center;
+  padding: 20px 0;
+  font-size: 30px;
+  
+}
+
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black;
+}
+
+.tooltiptext {
+  font-size: x-large;
+  width: 500px;
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  position: absolute;
+  z-index: 1;
+  left: 50%;
+  margin-left: -60px;
+}
+
+.tooltip .tooltiptext::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #555 transparent transparent transparent;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1;
+}
+
+.item1 { grid-area: header; }
+.item2 { grid-area: left1; width: min-content; }
+.item2a { grid-area: left2; width: min-content;}
+.item2b { grid-area: left3; width: min-content;}
+.item3 { grid-area: main; }
+.item4 { grid-area: right1;  width: min-content; }
+.item4a { grid-area: right2;  width: min-content;}
+.item4b { grid-area: right3; width: min-content; }
+.item5 { grid-area: footer; }
+
+.grid-container {
+  display: grid;
+  grid-template-areas:
+    'header header header header header header header header'
+    'left1 main main main main main main right1'
+    'left2 main main main main main main right2'
+    'left3 main main main main main main right3'
+    'left footer footer footer footer footer footer right';
+  grid-gap: 10px;
+  background-color: #2196F3;
+  padding: 10px;
+}
+
+.grid-container > div {
+  background-color: rgba(255, 255, 255, 0.8);
+  text-align: center;
+  padding: 20px 0;
+  font-size: 30px;
+  box-sizing: border-box;
+}
+
+</style>
+
+</head>
+<body onload="brython()">
+<body>
+
+
+<script type="text/python">
+import bib2
+
+bib2.frontPage()
+
+</script>
+
+</body>
+
+</html>
