@@ -14,7 +14,7 @@ converted to absolute coordinates by adding the XY coordinates of the image.
 The mouse coordinates are displayed in the table for diagnostic purposes.
 
 """
-
+ 
 dbg=True
 pageIndex=0
 jsonConfig=[]
@@ -81,18 +81,16 @@ def frontPage():
     
     document <= DIV(
         DIV( Class="item1",id="Header")+
-        DIV( Class="item2",id="Left1")+
-        DIV( Class="item2a",id="Left2")+
-        DIV( Class="item2b",id="Left3")+
-        DIV( Class="item3",id="Main")+  
-        DIV( Class="item4",id="Right1")+
-        DIV( Class="item4a",id="Right2")+
-        DIV( Class="item4b",id="Right3")+
-        DIV( Class="item5",id="Footer"),
+        DIV( Class="item3",id="Main")+
+        DIV( Class="item6",id="Left2")+
+        DIV( Class="item5",id="Footer", style={  "font-family": "Arial, Helvetica, sans-serif;"})+
+        DIV( Class="item7",id="Right2"),
+        
         Class="grid-container"
     )
     header = document["Header"]
-    header <= H1(SPAN("Ho Ho Ho"))
+    header <= H1(SPAN("Ho Ho Ho",Class='hhh'))
+    
     l=BUTTON(SPAN("<"),Class="dir")
     document["Left2"] <= l
     l.bind("click",shift_left)
@@ -101,6 +99,7 @@ def frontPage():
     r.bind("click",shift_right)
     main= DIV(id="action",style={"width": "100%", "height": "80%"})
     document["Main"] <= main
+    #document["Footer"] <= SPAN("FOOTER")
     
             
 

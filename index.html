@@ -31,8 +31,7 @@ td.outer {
 
 .dir {
     font-size: xx-large;
-    font-stretch: ultra-condensed;
-    background-color: rgba(255, 255, 255, 0.8);
+/*    background-color: rgba(255, 255, 255, 0.8); */
 
 }
 
@@ -78,32 +77,31 @@ td.outer {
 
 .tooltip:hover .tooltiptext {
   visibility: visible;
-  opacity: 1;
+  opacity: 1; 
 }
 
-.item1 { grid-area: header; }
-.item2 { grid-area: left1; xwidth: min-content; }
-.item2a { grid-area: left2; xwidth: min-content;}
-.item2b { grid-area: left3; xwidth: min-content;}
+.hhh {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 2em;
+}
+.item1 { grid-area: header;   }
 .item3 { grid-area: main; }
-.item4 { grid-area: right1;  xwidth: min-content; }
-.item4a { grid-area: right2;  xwidth: min-content;}
-.item4b { grid-area: right3; xwidth: min-content; }
+.item6 { grid-area: left2; }
 .item5 { grid-area: footer; }
+.item7 { grid-area: right2; }
 
 .grid-container {
   display: grid;
   grid-template-areas:
-    'header header header header header header header header'
-    'left1 main main main main main main right1'
-    'left2 main main main main main main right2'
-    'left3 main main main main main main right3'
-    'left footer footer footer footer footer footer right';
+    'header header header '
+    'main main main '
+    'left2 footer right2';
   grid-gap: 2px;
   background-color: #2196F3;
   padding: 10px;
 }
-
+/*
+*/
 .grid-container > div {
   background-color: rgba(255, 255, 255, 0.8);
   text-align: center;
@@ -124,9 +122,9 @@ td.outer {
 import bib
 
 
-#bib.loadConfig()
+bib.loadConfig()
 bib.frontPage()
-bib.fastConfig()
+#bib.fastConfig()
 
 </script>
 
