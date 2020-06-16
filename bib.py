@@ -1,7 +1,7 @@
 from browser import document, html, window, alert, timer, ajax
 from  browser.html import *
-import json
-
+import json,sys
+import bibconfig
 
 """
 Script to create a canvas, load a picture and create a number of hightlight areas that produce a popup on mouseover.
@@ -20,7 +20,10 @@ pageIndex=0
 jsonConfig=[]
 def read(f):
     global pageIndex,jsonConfig
-    jsonConfig=json.loads(f.read())
+    if False:
+        jsonConfig=json.loads(f.read())
+    else:
+        jsonConfig=bibconfig.config
     print('loaded')
     displayPic(document['action'],jsonConfig[pageIndex])
 
@@ -80,11 +83,11 @@ def frontPage():
         displayPic(main,jsonConfig[pageIndex])
     
     document <= DIV(
-        DIV( Class="item1",id="Header")+
-        DIV( Class="item3",id="Main")+
         DIV( Class="item6",id="Left2")+
-        DIV( Class="item5",id="Footer", style={  "font-family": "Arial, Helvetica, sans-serif;"})+
-        DIV( Class="item7",id="Right2"),
+        DIV( Class="item1",id="Header")+
+        DIV( Class="item7",id="Right2")+
+        DIV( Class="item3",id="Main")+
+        DIV( Class="item5",id="Footer", style={  "font-family": "Arial, Helvetica, sans-serif;"}),
         
         Class="grid-container"
     )
@@ -107,8 +110,8 @@ def frontPage():
 class Bunch(object):
     def __init__(self, adict):
         self.__dict__.update(adict)
-        self.width=int(window.innerWidth * 7 /8)
-        print(f'width {self.width}')
+        self.width=int(window.innerWidth) - 20 # * 7 /8)
+        #print(f'width {self.width}')
         self.height=int(self.width/float(self.ratio))
         self.picture='img/'+self.filename
 
@@ -134,6 +137,8 @@ def displayPic(doc,config):
     def px(x):
         return str(x)+"px"
     q=Bunch(config)
+    q.width=doc.offsetWidth-40
+    q.height=int(q.width/float(q.ratio))
     canvas = CANVAS(id="canvas",width =q.width, height = q.height)
     #canvas.style={"position": "absolute", "left": px(q.startX), "top": px(q.startY) }    
     canvas.bind("mousemove", mousemove)
@@ -142,7 +147,7 @@ def displayPic(doc,config):
 
     q.startX=canvas.offsetLeft
     q.startY=canvas.offsetTop
-    print(f"canvas {q.startX} {q.startY} ")
+    #print(f"canvas {q.startX} {q.startY} ")
     
     """ Cant work out how to load image into canvas with brython so drop into javascript here   """
 
@@ -151,34 +156,24 @@ def displayPic(doc,config):
     i=0
     for temp in q.highlights:
         h=Highlight(temp,q)
-
-        """
-        t2=temp.split(" ",4)
-        tlx, tly, brx, bry = map(int,t2[:4])
-        text=t2[-1]
-        """
         
         """ Create the individual highlight areas """
 
         highlight_id=f'V{i}'
         c2 = CANVAS(id=highlight_id, width=h.brx - h.tlx ,height=h.bry - h.tly )
-        c2.style={"position": "absolute", "left": px(h.tlx+q.startX), "top": px(h.tly+q.startY) }
+        
+        c2.style={"position": "absolute", "left": px(h.tlx+q.startX), "top": px(h.tly+q.startY), "cursor": "pointer" }
         ct2 = canvas.getContext('2d')
+
         """ Bind the mouse events to the individual highlight areas """
         
-        """
-        ct2.rect(h.tlx+q.startX, h.tly+q.startY, h.brx - h.tlx, h.brx - h.tlx)
-        grd = ct2.createRadialGradient(150, 150, 10, 150, 150, 150)
-        grd.addColorStop(0, '#8ED6FF')
-        grd.addColorStop(1, '#004CB3')
-        ct2.fillStyle = grd
-        ct2.fill()
-        print("filled")
-        """
-        
-        
-        c2.bind('mouseenter', mouseenter)
-        c2.bind('mouseleave', mouseout)
+        if True:
+            c2.bind('mousedown', mouseenter)
+            c2.bind('mouseup', mouseleave)
+            c2.bind('mouseleave', mouseout)
+        else:
+            c2.bind('mouseenter', mouseenter)
+            c2.bind('mouseleave', mouseout)
 
         doc <= c2
 
@@ -189,14 +184,18 @@ def displayPic(doc,config):
         tooltip=DIV(txt )
         tooltip.style={
             "position": "absolute", 
-            "left": px((h.tlx+h.brx)/2+q.startX), 
+            "left": px(min((h.tlx+h.brx)/2+q.startX, q.width - 500 )), 
             "top": px((h.tly+h.bry)/2+q.startY),
             "zIndex": 1,
             'visibility': 'hidden' 
         }
         
         
-        txt.bind('mouseleave', mouseout)
+        if True:
+            txt.bind('mouseup', mouseleave)
+            txt.bind('mouseleave', mouseout)
+        else:
+            txt.bind('mouseleave', mouseout)
         doc <= tooltip
 
         i+=1
@@ -224,11 +223,26 @@ def mousemove(ev):
 
 def mouseenter(ev):
     if dbg: document["trace1"].text = f'entering {ev.currentTarget.id}'
-    document["popup"+ev.currentTarget.id].style['visibility']='visible' # turn popup on 
+    pp= document["popup"+ev.currentTarget.id]
+    print(f"tooltip {pp.id} width {pp.offsetWidth}")
+    pp.style['visibility']='visible' # turn popup on 
 
 def mouseleave(ev):
     if dbg: document["trace1"].text = f'leaving {ev.currentTarget.id}'
-    document["popup"+ev.currentTarget.id].style['visibility']='hidden' # turn popup off
+    #document[ev.currentTarget.id].style['visibility']='hidden' # turn popup off
+
+    id=ev.currentTarget.id
+    if id[:5]=="popup":
+        frame_id=id[5:] 
+        popup_id=id
+        box=document[frame_id]
+    else:
+        frame_id=id
+        popup_id="popup"+id
+        box=document[popup_id].parent
+        box=document[frame_id]
+
+    document[popup_id].style['visibility']='hidden' # turn popup off
     
 def mouseout(ev):
     global cvs
@@ -247,7 +261,7 @@ def mouseout(ev):
     Y=ev.clientY
 
     #document["trace3"].text = f"coordinates : {X}, {Y}"
-    #document["trace1"].text = f'leaving {ev.currentTarget.id}  {X}, {Y} { X - box.offsetLeft} {Y - box.offsetTop} '
+    document["trace1"].text = f'leaving {ev.currentTarget.id}  {X}, {Y} { X - box.offsetLeft} {Y - box.offsetTop} '
     if  0 <= X - box.offsetLeft  <= box.width \
     and 0 <= Y - box.offsetTop   <= box.height :    
         return

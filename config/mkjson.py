@@ -25,7 +25,13 @@ with open('./Popup_Summary.csv', newline='') as csvfile:
           else:
                #print(slide)
                pass
-with open('bib.jsonld','w') as f:
-     json.dump(res,f)
+          
+if True:
+     with open('../bibconfig.py','w') as f:
+          print('config= \\',file=f)
+          pprint.pprint(res,stream=f,compact=True)                    
+else:     
+     with open('bib.jsonld','w') as f:
+          json.dump(res,f)
 
 

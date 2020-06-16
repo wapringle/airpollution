@@ -2,7 +2,6 @@ from browser import document, html, window, alert, timer, ajax
 
 import pprint
 
-#import bib
 import json
 """
 with open("img/bib.jsonld", 'r') as stream:
@@ -45,6 +44,8 @@ with open("config/bib.jsonld", 'r') as stream:
     except json.JSONDecodeError as exc:
         print(exc)
 
-pprint.pprint(config[0])
+#pprint.pprint(config[0])
 import bib, bib2
-bib.displayPic(document,config[0])
+#bib.displayPic(document,config[0])
+bib.read(None)
+i=1
