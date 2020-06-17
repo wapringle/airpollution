@@ -2,6 +2,7 @@ from browser import document, html, window, alert, timer
 from  browser.html import *
 import bibconfig
 
+""" dummy chnage """
 """
 Script to create a canvas, load a picture and create a number of hightlight areas that produce a popup on mouseover.
 
