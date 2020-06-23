@@ -136,7 +136,7 @@ def displayPic(doc,config):
         highlight_id=f'V{i}'
         c2 = CANVAS(id=highlight_id, width=h.brx - h.tlx ,height=h.bry - h.tly )
         
-        c2.style={"position": "absolute", "left": px(h.tlx+q.startX), "top": px(h.tly+q.startY), "cursor": "pointer" }
+        c2.style={"position": "absolute", "left": px(h.tlx+q.startX), "top": px(h.tly+q.startY), "cursor": "pointer", "-webkit-touch-callout" : "none" }
         ct2 = canvas.getContext('2d')
 
         """ Bind the mouse events to the individual highlight areas """
@@ -175,6 +175,8 @@ def displayPic(doc,config):
         else:
             txt.bind('mouseleave', mouseout)
         doc <= tooltip
+        pp=document[popup_id]
+        pp.style['top']= px(pp.offsetTop - pp.offsetHeight - 50)
 
         i+=1
         
@@ -196,18 +198,14 @@ def mousemove(ev):
     if dbg: document["trace3"].text = f"coordinates : {vc(ev.layerX,document['canvas'].offsetWidth)}, {vc(ev.layerY,document['canvas'].offsetHeight)}"
     pass
 
-keep_top={}
 
 def mouseenter(ev):
-    global keep_top
     if dbg: document["trace1"].text = f'entering {ev.currentTarget.id}'
     pp= document["popup"+ev.currentTarget.id]
-    keep_top[ev.currentTarget.id]=pp.offsetTop
-    pp.style['top']= px(pp.offsetTop - pp.offsetHeight - 50)
     pp.style['visibility']='visible' # turn popup on 
+    ev.preventDefault()
 
 def mouseleave(ev):
-    global keep_top
     if dbg: document["trace1"].text = f'leaving {ev.currentTarget.id}'
 
     id=ev.currentTarget.id
@@ -222,7 +220,6 @@ def mouseleave(ev):
         box=document[frame_id]
 
     document[popup_id].style['visibility']='hidden' # turn popup off
-    document[popup_id].style['top']=keep_top[frame_id]
     
 def mouseout(ev):
     id=ev.currentTarget.id
