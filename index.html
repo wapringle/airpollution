@@ -2,6 +2,7 @@
 <html><!--dummy change -->
 <head>
     <meta charset="utf-8">
+    <meta http-equiv="imagetoolbar" content="no" />
     <!-- These load the Brython python to javascript convertor -->
     <script type="text/javascript"
         src="https://cdn.jsdelivr.net/npm/brython@3.8.9/brython.min.js">
@@ -103,6 +104,14 @@ td.outer {
   grid-gap: 2px;
   background-color: #2196F3;
   padding: 10px;
+  
+-webkit-touch-callout: none;
+-webkit-user-select: none;
+-khtml-user-select: none;
+-moz-user-select: none;
+-ms-user-select: none;
+user-select: none;
+
 }
 /*
 */
@@ -119,6 +128,7 @@ td.outer {
 
 </head>
 <body onload="brython()">
+<body oncontextmenu="return false;">
 <body>
 
 <script type="text/javascript"
