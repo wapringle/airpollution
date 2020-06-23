@@ -62,10 +62,14 @@ def frontPage():
     
     l=BUTTON(SPAN("<"),Class="dir")
     document["Left2"] <= l
-    l.bind("click",shift_left)
+    #l.bind("click",shift_left)
+    l.bind("mousedown",shift_left)
+    
     r = BUTTON(SPAN(">"),Class="dir")
     document["Right2"] <= r
-    r.bind("click",shift_right)
+    #r.bind("click",shift_right)
+    r.bind("mousedown",shift_right)
+    
     main= DIV(id="action",style={"width": "100%", "height": "80%"})
     document["Main"] <= main
 
@@ -101,11 +105,12 @@ class Highlight(object):
         self.bry = cv(self.bry_pc,q.height)
         
 
+def px(x):
+    return str(x)+"px"
+
 def displayPic(doc,config):
     
     """ Display apicure using data from config """
-    def px(x):
-        return str(x)+"px"
     
     q=Bunch(config)
     q.width=doc.offsetWidth-40 # make it as fullscreen as possible, allow for margins
@@ -159,7 +164,7 @@ def displayPic(doc,config):
         tooltip.style={
             "position": "absolute", 
             "left": px(min((h.tlx+h.brx)/2+q.startX, q.width - 500 )), #  if necessary, adjust lhs to stop popup overflowing page
-            "top": px((h.tly+h.bry)/2+q.startY),
+            "top": px((h.tly+h.bry)/2+q.startY ),
             "zIndex": 1,
             'visibility': 'hidden' 
         }
@@ -191,13 +196,18 @@ def mousemove(ev):
     if dbg: document["trace3"].text = f"coordinates : {vc(ev.layerX,document['canvas'].offsetWidth)}, {vc(ev.layerY,document['canvas'].offsetHeight)}"
     pass
 
+keep_top={}
+
 def mouseenter(ev):
+    global keep_top
     if dbg: document["trace1"].text = f'entering {ev.currentTarget.id}'
     pp= document["popup"+ev.currentTarget.id]
+    keep_top[ev.currentTarget.id]=pp.offsetTop
+    pp.style['top']= px(pp.offsetTop - pp.offsetHeight - 50)
     pp.style['visibility']='visible' # turn popup on 
 
 def mouseleave(ev):
-    
+    global keep_top
     if dbg: document["trace1"].text = f'leaving {ev.currentTarget.id}'
 
     id=ev.currentTarget.id
@@ -212,6 +222,7 @@ def mouseleave(ev):
         box=document[frame_id]
 
     document[popup_id].style['visibility']='hidden' # turn popup off
+    document[popup_id].style['top']=keep_top[frame_id]
     
 def mouseout(ev):
     id=ev.currentTarget.id
