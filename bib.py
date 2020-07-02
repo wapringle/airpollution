@@ -123,12 +123,22 @@ def displayPic(doc,config):
     q.startX=canvas.offsetLeft
     q.startY=canvas.offsetTop
     
-    """ Cant work out how to load image into canvas with brython so drop into javascript here   """
+    """ Cant work out how to load image into canvas with brython so drop into javascript here   
+    #window.loadImage(canvas,q.picture,q.width,q.height) # keep these same as canvas dimensions
 
-    window.loadImage(canvas,q.picture,q.width,q.height) # keep these same as canvas dimensions
+    Finally worked it out. Simple if you know how
     
+    """
+
+    ctx = canvas.getContext('2d')
+
+    v = IMG(src=q.picture,id='pic') 
+    v.onload=lambda ev: ctx.drawImage(v,0,0,q.width,q.height)
+
     i=0
     for temp in q.highlights:
+        if dbg:
+            break
         h=Highlight(temp,q)
         
         """ Create the individual highlight areas """
