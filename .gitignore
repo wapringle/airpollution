@@ -54,3 +54,6 @@ eagle.epf
 
 # file locks introduced since 7.x
 *.lck
+
+p2.csv
+p3.csv
