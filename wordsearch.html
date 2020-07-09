@@ -1,0 +1,122 @@
+<!doctype html>
+<html><!--dummy change -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="imagetoolbar" content="no" />
+    <!-- These load the Brython python to javascript convertor -->
+    <script type="text/javascript"
+        src="https://cdn.jsdelivr.net/npm/brython@3.8.9/brython.min.js">
+    </script> 
+    <script type="text/javascript"
+        src="https://cdn.jsdelivr.net/npm/brython@3.8.9/brython_stdlib.js">
+    </script> 
+    <script type="text/javascript"
+        src="pic.js">
+    </script> 
+    
+<style>
+div.border {
+  background-color: lightgrey;
+  width: fit-content;
+  border: 15px solid green;
+  padding: 50px;
+  margin: 20px;
+  box-sizing: border-box;
+  border-radius: 10px
+}
+td.outer {
+    border-style:solid;
+    background: tomato;
+}
+table.ws {
+    border-collapse: collapse;
+    border-width: 2px;
+    border-color: black;
+    border-style: double;
+    font-size: large;
+
+}
+td.ws {
+    border-width: 2px;
+    border-color: black;
+    border-style: outset;
+    font-size: xx-large;
+    width: 30px;
+    height: 30px;
+    font-family: monospace;
+    background-color: ivory;
+}
+
+.dir {
+    font-size: 4em;
+    width: 200px;
+    height: 200px;
+    background-color: transparent;
+    border-color: transparent;
+    cursor: ew-resize;
+
+}
+
+.button {
+  background-color: rgba(255, 255, 255, 0.8);
+  text-align: center;
+  padding: 20px 0;
+  font-size: 30px;
+  
+}
+
+.item6 { grid-area: left2; } 
+.item7 { grid-area: right2; }
+.item1 { grid-area: header; }
+.item3 { grid-area: main; }
+.item5 { grid-area: footer; }
+
+.grid-container {
+  display: grid;
+  grid-template-areas:
+    'left2 header right2 '
+    'main main main '
+    'footer footer footer';
+  grid-gap: 2px;
+  background-color: #2196F3;
+  padding: 10px;
+}
+
+.grid-container > div {
+  background-color: rgba(255, 255, 255, 0.8);
+  text-align: center;
+  padding: 10px 0;
+  font-size: 30px;
+  font: arial
+  box-sizing: border-box;
+}
+.ul {
+    text-align: left;
+}
+</style>
+
+</head>
+<body onload="brython()">
+<!--
+<body oncontextmenu="return false;">
+<script type="text/javascript"
+    src="touch.js">
+</script> 
+
+-->
+<body>
+
+
+
+<script type="text/python">
+import wordsquare
+
+wordsquare.load()
+
+
+
+</script>
+
+</body>
+
+</html>
