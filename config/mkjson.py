@@ -26,7 +26,7 @@ with open('./Popup_Summary.csv', newline='') as csvfile:
                #print(slide)
                pass
 
-pprint.pprint(res)          
+#pprint.pprint(res)          
 if True:
      with open('../bibconfig.py','w') as f:
           print('config= \\',file=f)

@@ -141,7 +141,7 @@ def on_grid_button_pressed(ev):
   print(found)
   print(activeSquares)
   if set(found) == activeSquares:
-    alert("Contratulations! You found all the words")
+    alert("Congratulations! You found all the words")
     
 
 
@@ -185,9 +185,10 @@ def showPuzzle():
     UL(
       wordList
     )+
-    SPAN("Click on the words you find")
+    SPAN("Click on the words you find"),
+    Class="txt"
   )    
-  return  html.TABLE(TR(TD(DIV(make_grid(w,grid_size),xClass="border")) + TD(waffle)),style={"backgroundColor": "#99f9ea", "margin": "auto"})
+  return  DIV(html.TABLE(TR(TD(DIV(make_grid(w,grid_size),Class="border")) + TD(waffle)),style={"backgroundColor": "#99f9ea", "margin": "auto"}),style={"backgroundColor": "#99f9ea"} )
 
 def load():
   frontPage()

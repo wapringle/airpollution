@@ -32,7 +32,7 @@ td.outer {
 .dir {
     font-size: 4em;
     width: 200px;
-    height: 200px;
+    height: 100px;
     background-color: transparent;
     border-color: transparent;
     cursor: ew-resize;
@@ -43,7 +43,7 @@ td.outer {
   background-color: rgba(255, 255, 255, 0.8);
   text-align: center;
   padding: 20px 0;
-  font-size: 30px;
+  font-size: 10px;
   
 }
 
@@ -89,9 +89,9 @@ td.outer {
   font-size: 1em;
    height: min-content;
 }
-.item6 { grid-area: left2; } /* width: min-content; height: min-content;} */
-.item7 { grid-area: right2; } /* width: min-content; height: min-content;} */
-.item1 { grid-area: header; } /*  width: max-content; height: min-content;} */
+.item6 { grid-area: left2; } 
+.item7 { grid-area: right2; }
+.item1 { grid-area: header; }
 .item3 { grid-area: main; }
 .item5 { grid-area: footer; }
 
@@ -105,6 +105,56 @@ td.outer {
   background-color: #2196F3;
   padding: 10px;
   
+
+}
+
+div.border {
+  background-color: lightgrey;
+  width: fit-content;
+  border: 10px solid #2196F3;
+  padding: 0px;
+  margin: 10px;
+  box-sizing: border-box;
+  border-radius: 10px
+}
+td.outer {
+    border-style:solid;
+    background: tomato;
+}
+table.ws {
+    border-collapse: collapse;
+    border-width: 2px;
+    border-color: black;
+    border-style: double;
+    font-size: large;
+
+}
+td.ws {
+    border-width: 2px;
+    border-color: black;
+    border-style: outset;
+    font-size: x-large;
+    width: 20px;
+    height: 20px;
+    font-family: monospace;
+    background-color: ivory;
+}
+
+.dir {
+    font-size: 4em;
+    width: 200px;
+    height: 200px;
+    background-color: transparent;
+    border-color: transparent;
+    cursor: ew-resize;
+
+}
+.txt {
+    font-size: xx-large;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/*
 -webkit-touch-callout: none;
 -webkit-user-select: none;
 -khtml-user-select: none;
@@ -112,14 +162,12 @@ td.outer {
 -ms-user-select: none;
 user-select: none;
 
-}
-/*
 */
 .grid-container > div {
   background-color: rgba(255, 255, 255, 0.8);
   text-align: center;
   padding: 10px 0;
-  font-size: 30px;
+  xfont-size: 30px;
   font: arial
   box-sizing: border-box;
 }

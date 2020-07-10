@@ -1,10 +1,18 @@
-Slide,Aspect Ratio,Filename
-SLIDE 1,2.6,1-BiB-Slide.png
-SLIDE 2,2.6,2-BiB-Slide.png
-SLIDE 3,2.6,3-BiB-Slide.png
-SLIDE 4,2.6,4-BiB-Slide.png
-SLIDE 5,2.6,5-BiB-Slide.png
-SLIDE 6,2.6,6-BiB-Slide.png
-SLIDE 7,2.6,7-BiB-Slide.png
-SLIDE 8,2.6,8-BiB-Slide.png
-SLIDE 9,2.6,9-BiB-Slide.png
+Slide,Aspect Ratio,Filename,Type,
+SLIDE 1,2.6,1-BiB-Slide.png,1,The Earth is surrounded…
+SLIDE 2,2.6,2-BiB-Slide.png,1,Composition of atmosphere Pie Chart
+A QUIZ,2.6,AQuizQ.png,2,What is air pollution?
+SLIDE 3,2.6,3-BiB-Slide.png,1,Lungcapacity / breathing / air pollution
+E QUIZ,2.6,EQuizQ.png,2,What is lung capactiy a measure of?
+SLIDE 4,2.6,4-BiB-Slide.png,1,Magnifying glass / intro to particulate matter
+SLIDE 5,2.6,5-BiB-Slide.png,1,PM under a microscope
+SLIDE 6,2.6,6-BiB-Slide.png,1,factory picture / PM can be natural or human made
+B QUIZ,2.6,BQuizQ.png,2,Which of the following causes air pollution?
+SLIDE 7,2.6,7-BiB-Slide.png,1,5 things in this picture that cause air pollution
+C QUIZ,2.6,CQuizQ.png,2,Where is there most air pollution?
+SLIDE 8,2.6,8-BiB-Slide.png,1,Air pollution can make people sick
+D QUIZ,2.6,DQuizQ.png,2,What is respiration another word for?
+SLIDE 9,2.6,9-BiB-Slide.png,1,Bodies defences against air pollution
+F QUIZ,2.6,FQuizQ.png,2,Which two of the following help bodies defence against air pollution?
+SLIDE10,2.6,,1,End slide
+WSEARCH,2.6,,3,
