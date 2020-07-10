@@ -1,6 +1,7 @@
 from browser import document, html, window, alert, timer
 from  browser.html import *
 import bibconfig
+import wordsquare
 
 """ dummy chnage """
 """
@@ -30,21 +31,21 @@ def frontPage():
     
     def shift_left(ev):
         global pageIndex,jsonConfig
+        main.clear()
         if pageIndex > 0:
             pageIndex -= 1
-        
-        main.clear()
-        
-        displayPic(main,jsonConfig[pageIndex])
+            displayPic(main,jsonConfig[pageIndex])
+        else:
+            main <= wordsquare.showPuzzle()
     
     def shift_right(ev):
         global pageIndex,jsonConfig
+        main.clear()
         if pageIndex < len(jsonConfig) -1:
             pageIndex += 1
-        
-        main.clear()
-        
-        displayPic(main,jsonConfig[pageIndex])
+            displayPic(main,jsonConfig[pageIndex])
+        else:
+            main <= wordsquare.showPuzzle()
 
     """ Elements are laid out using the grid css model. Could replace with a table """
 
@@ -58,14 +59,14 @@ def frontPage():
         Class="grid-container"
     )
     header = document["Header"]
-    header <= H1(SPAN("Ho Ho Ho",Class='hhh'))
+    header <= H1(SPAN("BiB Breathes",Class='hhh'))
     
-    l=BUTTON(SPAN("<"),Class="dir")
+    l=BUTTON(SPAN("<   "),Class="dir")
     document["Left2"] <= l
     #l.bind("click",shift_left)
     l.bind("mousedown",shift_left)
     
-    r = BUTTON(SPAN(">"),Class="dir")
+    r = BUTTON(SPAN("   >"),Class="dir")
     document["Right2"] <= r
     #r.bind("click",shift_right)
     r.bind("mousedown",shift_right)
@@ -137,8 +138,6 @@ def displayPic(doc,config):
 
     i=0
     for temp in q.highlights:
-        if dbg:
-            break
         h=Highlight(temp,q)
         
         """ Create the individual highlight areas """
@@ -146,8 +145,11 @@ def displayPic(doc,config):
         highlight_id=f'V{i}'
         c2 = CANVAS(id=highlight_id, width=h.brx - h.tlx ,height=h.bry - h.tly )
         
-        c2.style={"position": "absolute", "left": px(h.tlx+q.startX), "top": px(h.tly+q.startY), "cursor": "pointer", "-webkit-touch-callout" : "none" }
+        c2.style={"position": "absolute", "left": px(h.tlx+q.startX), "top": px(h.tly+q.startY), "cursor": "pointer", "zzz-webkit-touch-callout" : "none" }
         ct2 = canvas.getContext('2d')
+
+        if dbg:
+            break
 
         """ Bind the mouse events to the individual highlight areas """
         
