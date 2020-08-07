@@ -19,7 +19,8 @@ def frontPage():
         DIV( Class="item1",id="Header")+
         DIV( Class="item7",id="Right2")+
         DIV( Class="item3",id="Main")+
-        DIV( Class="item5",id="Footer", style={  "font-family": "Arial, Helvetica, sans-serif;"}),
+        DIV( Class="item5",id="Footer", style={  "font-family": "Arial, Helvetica, sans-serif;"})
+        ,
 
         Class="grid-container"
     )
