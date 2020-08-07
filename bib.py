@@ -135,6 +135,15 @@ def displayPic(doc,config):
 
     v = IMG(src=q.picture,id='pic') 
     v.onload=lambda ev: ctx.drawImage(v,0,0,q.width,q.height)
+    
+    """ 
+    If you dont want the animation on this page, remove the next few lines
+    ps the stars module is a bit of a mess, a few fossilised ideas
+    """
+    import stars
+    if q.filename=='7-BiB-Slide.png':
+        stars.animate(ctx,q)
+        
 
     i=0
     for temp in q.highlights:
