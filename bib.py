@@ -142,7 +142,7 @@ def displayPic(doc,config):
     """
     import stars
     if q.filename=='7-BiB-Slide.png':
-        stars.animate(ctx,q)
+        stars.animate(canvas)
         
 
     i=0
