@@ -112,14 +112,15 @@ def makeShape(ctx,pList,offset=0,scale=1):
 
 star2=[s+centre for s in star]
 
-def makeStar(canvas,ctx):
+def makeStar(canvas):
+    ctx = canvas.getContext('2d')
     ctx.fillStyle= "transparent"
     ctx.fillRect(0,0,canvas.width,canvas.height)
     #ctx.strokeRect(0,0,canvas.width,canvas.height)
     makeShape(ctx,star2,Point(canvas.width/2,canvas.height/2),1)
     
 class Shape():
-    def __init__(self,picture,XXX=Point(0,0),angle=0.0,scale=100,offset=Point(0,0)):
+    def __init__(self,picture,size,XXX=Point(0,0),angle=0.0,scale=100,offset=Point(0,0)):
         """
         print(locals())
         self.__dict__.update(dict(locals()))
@@ -127,17 +128,20 @@ class Shape():
         del self.self
         """
         self.picture=picture
+        self.size=size
         self.XXX=XXX
         self.angle=angle
         self.scale=scale
         self.offset=offset
         self.move=0
+        self.alpha=1.0
         
     def draw(self,ctx):
         rotationPoint=self.XXX+self.offset
         ctx.translate(rotationPoint[0],rotationPoint[1])
         ctx.rotate(self.angle)
-        ctx.drawImage(self.picture,-self.offset[0],-self.offset[1])#,self.scale,self.scale)
+        ctx.globalAlpha=self.alpha
+        ctx.drawImage(self.picture,-self.offset[0],-self.offset[1],self.size[0],self.size[1])
         ctx.rotate(-self.angle)
         ctx.translate(-rotationPoint[0],-rotationPoint[1])
         
@@ -175,12 +179,12 @@ def XXonload():
     main <= canvas
 
     c2=CANVAS(id="c2" ,width = 300, height = 300 )
-    ct2 = c2.getContext('2d')
-    makeStar(c2,ct2)
+    makeStar(c2)
+    size=Point(c2.width,c2.height)
     
-    shapeList.append(Shape(c2,Point(500,500),offset=Point(150,150)))
-    shapeList.append(Shape(c2,Point(100,100),offset=Point(150,150)))
-    #shapeList.append(Shape(c2,Point(600,600),offset=Point(150,150)))
+    shapeList.append(Shape(c2,size,Point(500,500),offset=Point(150,150)))
+    shapeList.append(Shape(c2,size,Point(100,100),offset=Point(150,150)))
+    #shapeList.append(Shape(c2,size,Point(600,600),offset=Point(150,150)))
     
 
     
@@ -203,8 +207,8 @@ class Bunch(object):
 
 
 class Background(Shape):
-    def __init__(self,picture,id,start,duration,repeat,alpha):
-        super().__init__(picture)
+    def __init__(self,picture,id,size,start,duration,repeat,alpha):
+        super().__init__(picture,size)
         self.id=id
         self.start=start
         self.duration=duration
@@ -274,38 +278,39 @@ def onload():
     q.width=main.offsetWidth-40
 
     canvas = CANVAS(id="canvas" ,width = q.width, height = q.height )
-    ctx = canvas.getContext('2d')
     main <= canvas
     
-    animate(ctx,q)
+    animate(canvas)
     
-def animate(ctx,q):
+def animate(canvas):
     global nxt,tsave
+    ctx = canvas.getContext('2d')
+    size=Point(canvas.width,canvas.height)
 
     frames=[
-        Background('7-BiB-layer0.png','layer0',0.0,-1,0,1.0),
-        Background('7-BiB-layer1.png','layer1',0.0,1000,1000,1.0),
-        Background('7-BiB-layer3.png','layer3',3000,2000,4000,0.5),
-        Background('7-BiB-layer4.png','layer4',3500,1500,4500,0.3),
-        Background('7-BiB-layer5.png','layer5',4000,1000,5000,0.1),
+        Background('7-BiB-layer0.png','layer0',size,0.0,-1,0,1.0),
+        Background('7-BiB-layer1.png','layer1',size,0.0,1000,1000,1.0),
+        Background('7-BiB-layer3.png','layer3',size,3000,2000,4000,0.5),
+        Background('7-BiB-layer4.png','layer4',size,3500,1500,4500,0.3),
+        Background('7-BiB-layer5.png','layer5',size,4000,1000,5000,0.1),
         ]
     for f in frames:
         v = IMG(src='img/'+f.picture,id=f.id) 
-        v.onload=lambda ev: ctx.drawImage(v,0,0,q.width,q.height)
-        f.img=v
+        v.onload=lambda ev: ctx.drawImage(v,0,0,canvas.width,canvas.height)
+        f.picture=v
         
     def displayPic2(elapsed):
         global nxt,pic
         if elapsed > nxt:
             for f in frames:
                 if f.canDraw(elapsed):
-                    ctx.globalAlpha=f.alpha
-                    ctx.drawImage(f.img,0,0,q.width,q.height)
+                    f.draw(ctx)
             nxt = min(f.nextActive(elapsed) for f in frames)
 
     def drawFrame (timestamp):
         global  tsave,nxt
-        window.requestAnimationFrame(drawFrame)
+        if nxt< 200:
+            window.requestAnimationFrame(drawFrame)
         if tsave==0.0:
             tsave=timestamp
         else:
@@ -316,5 +321,5 @@ def animate(ctx,q):
     drawFrame(0)
 
 
-onload()
+#onload()
 i=1
