@@ -4,6 +4,25 @@ from browser.html import *
 
 from WordSearch import WordSearch
 
+def myalert(txt):
+  def display(disp):
+    modal=document["mymodal"]
+    modal.style.display = disp
+  
+  span=SPAN("&times",Class="close")
+  modal= DIV(
+      DIV(
+          span + P(txt),
+        Class="modal-content"),
+        id="mymodal",
+        Class="modal"
+    )
+
+  span.bind("click",lambda ev: display("none"))
+  document["action"] <= modal 
+  display("block")
+
+
 def frontPage():
 
   def shift_left(ev):
@@ -129,7 +148,19 @@ def on_mouse_leave(ev):
   cell.action("mouseout")
   set_backGround(id, cell)
     #document[id].style.backgroundColor=cell.status.background()
-    
+
+def show_finished():
+  #myalert("Congratulations! You found all the words")
+  document["popupfinished"].style["top"]='200px'
+  document["popupfinished"].style["left"]='400px'
+  document["popupfinished"].style.visibility='visible'
+  document["buttonleft"].disabled=True
+  document["buttonright"].disabled=True
+
+
+def dblclick(ev):
+  show_finished()
+  
 def on_grid_button_pressed(ev): 
   itm=ev.currentTarget
   id=itm.id
@@ -142,7 +173,7 @@ def on_grid_button_pressed(ev):
   print(found)
   print(activeSquares)
   if set(found) == activeSquares:
-    alert("Congratulations! You found all the words")
+    show_finished()
     
 
 
@@ -164,6 +195,8 @@ def make_grid(w,grid_size):
       cell.bind("mouseenter", on_mouse_enter)
       cell.bind("mouseleave", on_mouse_leave)
       cell.bind("click", on_grid_button_pressed)
+      cell.bind("dblclick", dblclick)
+      
       cell.style.contentEditable = True
       
 
@@ -193,4 +226,6 @@ def showPuzzle():
 
 def load():
   frontPage()
-  document["action"] <= showPuzzle()
+  
+  
+  

@@ -2,6 +2,7 @@ from browser import document, html, window, alert, timer
 from  browser.html import *
 import bibconfig
 import wordsquare
+import stars
 
 """ dummy chnage """
 """
@@ -28,6 +29,7 @@ def load():
     jsonConfig=bibconfig.config
 
 def frontPage():
+    global yesno
     
     def shift_left(ev):
         global pageIndex,jsonConfig
@@ -53,7 +55,7 @@ def frontPage():
         DIV( Class="item6",id="Left2")+
         DIV( Class="item1",id="Header")+
         DIV( Class="item7",id="Right2")+
-        DIV( Class="item3",id="Main")+
+        DIV( Class="item3",id="Main", style={  "background-color": "#99f9ea"})+
         DIV( Class="item5",id="Footer", style={  "font-family": "Arial, Helvetica, sans-serif;"}),
         
         Class="grid-container"
@@ -61,20 +63,26 @@ def frontPage():
     header = document["Header"]
     header <= H1(SPAN("BiB Breathes",Class='hhh'))
     
-    l=BUTTON(SPAN("<   "),Class="dir")
+    l=BUTTON(SPAN("<"),id="buttonleft",Class="dir")
     document["Left2"] <= l
     #l.bind("click",shift_left)
     l.bind("mousedown",shift_left)
     
-    r = BUTTON(SPAN("   >"),Class="dir")
+    r = BUTTON(SPAN(">"),id="buttonright",Class="dir")
     document["Right2"] <= r
     #r.bind("click",shift_right)
     r.bind("mousedown",shift_right)
+
+    stars.yes("popupyes")
+    stars.wrong("popupwrong")
+    stars.finished("popupfinished")
+    
     
     main= DIV(id="action",style={"width": "100%", "height": "80%"})
     document["Main"] <= main
 
     displayPic(main,jsonConfig[pageIndex])
+    
     
 
 class Bunch(object):
@@ -110,8 +118,9 @@ def px(x):
     return str(x)+"px"
 
 def displayPic(doc,config):
+    global yesno
     
-    """ Display apicure using data from config """
+    """ Display picture using data from config """
     
     q=Bunch(config)
     q.width=doc.offsetWidth-40 # make it as fullscreen as possible, allow for margins
@@ -140,13 +149,15 @@ def displayPic(doc,config):
     If you dont want the animation on this page, remove the next few lines
     ps the stars module is a bit of a mess, a few fossilised ideas
     """
-    import stars
     if q.filename=='7-BiB-Slide.png':
         stars.animate(canvas)
         
 
     i=0
+    
+    yesno={}
     for temp in q.highlights:
+        i+=1
         h=Highlight(temp,q)
         
         """ Create the individual highlight areas """
@@ -157,6 +168,9 @@ def displayPic(doc,config):
         c2.style={"position": "absolute", "left": px(h.tlx+q.startX), "top": px(h.tly+q.startY), "cursor": "pointer", "zzz-webkit-touch-callout" : "none" }
         ct2 = canvas.getContext('2d')
 
+        popup_id="popup"+highlight_id
+        doc <= c2
+
         if dbg:
             break
 
@@ -165,6 +179,7 @@ def displayPic(doc,config):
         if clickModel:
             
             """ Click over area for popup """
+            
             c2.bind('mousedown', mouseenter)
             c2.bind('mouseup', mouseleave)
             c2.bind('mouseleave', mouseout)
@@ -174,14 +189,22 @@ def displayPic(doc,config):
             c2.bind('mouseenter', mouseenter)
             c2.bind('mouseleave', mouseout)
 
-        doc <= c2
+        if h.text=='Right':
+            yesno[popup_id]="popupyes"
+            continue
+        elif h.text=='Wrong':
+            yesno[popup_id]="popupwrong"
+            continue
+        
+
 
         """ This is the popup """
         
-        popup_id="popup"+highlight_id
+        
         txt=SPAN(h.text,id=popup_id, Class="tooltiptext")
 
-        tooltip=DIV(txt )
+        tooltip=DIV(txt,Class="border" )
+        
         tooltip.style={
             "position": "absolute", 
             "left": px(min((h.tlx+h.brx)/2+q.startX, q.width - 500 )), #  if necessary, adjust lhs to stop popup overflowing page
@@ -189,7 +212,6 @@ def displayPic(doc,config):
             "zIndex": 1,
             'visibility': 'hidden' 
         }
-        
         if clickModel:
             txt.bind('mouseup', mouseleave)
             txt.bind('mouseleave', mouseout)
@@ -199,7 +221,6 @@ def displayPic(doc,config):
         pp=document[popup_id]
         pp.style['top']= px(pp.offsetTop - pp.offsetHeight - 50)
 
-        i+=1
         
     """ Create a little table to display the mouse details.
         This is much more civilised than HTML or javascript.
@@ -221,28 +242,29 @@ def mousemove(ev):
 
 
 def mouseenter(ev):
+    global yesno
     if dbg: document["trace1"].text = f'entering {ev.currentTarget.id}'
-    pp= document["popup"+ev.currentTarget.id]
+    popup_id="popup"+ev.currentTarget.id
+    pp= document[yesno.get(popup_id,popup_id)]
+    if popup_id in yesno:
+        pp.style["left"]=px(window.innerWidth / 2 - 200)
+        pp.style["top"]=px(document[ev.currentTarget.id].offsetTop  - 150)
+        
     pp.style['visibility']='visible' # turn popup on 
     ev.preventDefault()
 
-def mouseleave(ev):
-    if dbg: document["trace1"].text = f'leaving {ev.currentTarget.id}'
-
-    id=ev.currentTarget.id
-    if id[:5]=="popup":
-        frame_id=id[5:] 
-        popup_id=id
-        box=document[frame_id]
-    else:
-        frame_id=id
-        popup_id="popup"+id
-        box=document[popup_id].parent
-        box=document[frame_id]
-
-    document[popup_id].style['visibility']='hidden' # turn popup off
     
+    
+def mouseleave(ev):
+    global yesno
+    if dbg: document["trace1"].text = f'leaving {ev.currentTarget.id}'
+    popup_id="popup"+ev.currentTarget.id
+    pp= document[yesno.get(popup_id,popup_id)]
+    pp.style['visibility']='hidden' # turn popup on 
+    ev.preventDefault()
+
 def mouseout(ev):
+    global yesno
     id=ev.currentTarget.id
     if id[:5]=="popup":
         frame_id=id[5:] 
@@ -251,7 +273,7 @@ def mouseout(ev):
     else:
         frame_id=id
         popup_id="popup"+id
-        box=document[popup_id].parent
+        popup_id=yesno.get(popup_id,popup_id)
         box=document[frame_id]
         
     X=ev.clientX

@@ -110,34 +110,28 @@ def makeShape(ctx,pList,offset=0,scale=1):
     ctx.stroke()
     
 
-star2=[s+centre for s in star]
+star2=[s + centre for s in star]
 
-def makeStar(canvas):
+def makeStar(canvas,scale):
     ctx = canvas.getContext('2d')
     ctx.fillStyle= "transparent"
     ctx.fillRect(0,0,canvas.width,canvas.height)
     #ctx.strokeRect(0,0,canvas.width,canvas.height)
-    makeShape(ctx,star2,Point(canvas.width/2,canvas.height/2),1)
+    makeShape(ctx,star2,Point(canvas.width/2,canvas.height/2),scale)
     
 class Shape():
-    def __init__(self,picture,size,XXX=Point(0,0),angle=0.0,scale=100,offset=Point(0,0)):
-        """
-        print(locals())
-        self.__dict__.update(dict(locals()))
-        print(self.XXX)
-        del self.self
-        """
+    def __init__(self,picture,size,location=Point(0,0),angle=0.0, rotation=0.0):
         self.picture=picture
         self.size=size
-        self.XXX=XXX
+        self.location=location
         self.angle=angle
-        self.scale=scale
-        self.offset=offset
+        self.offset=self.size/2
         self.move=0
+        self.rotation=rotation
         self.alpha=1.0
         
     def draw(self,ctx):
-        rotationPoint=self.XXX+self.offset
+        rotationPoint=self.location+self.offset
         ctx.translate(rotationPoint[0],rotationPoint[1])
         ctx.rotate(self.angle)
         ctx.globalAlpha=self.alpha
@@ -147,55 +141,166 @@ class Shape():
         
     def update(self,timestamp):
         self.move=min( self.move+0,800)
-        self.angle+=0.05
+        self.angle+=self.rotation
     
-        
-def XXonload():
-    shapeList=[]
-    def displayPic(timestamp):
+    
+    
+def loadPopup2(id,canvas,shapeList):
+    ctx = canvas.getContext('2d')
+    tooltip=DIV(canvas, id=id, Class="border" )
+    tooltip.style={
+        "position": "absolute", 
+        "zIndex": 1,
+        'visibility': 'hidden' 
+    }
+    
+    document <= tooltip
+    def drawFrame (timestamp):
+        window.requestAnimationFrame(drawFrame)
         ctx.clearRect(0, 0, canvas.width, canvas.height)
         ctx.strokeRect(0,0,canvas.width,canvas.height)
         ctx.fillStyle= "#99f9ea"
         ctx.fillRect(0,0,canvas.width,canvas.height)
         
-        """ Draw canvas ct2 at position x,y with rotation "angle" """
+        """ Draw shapes and update """
         
         for s in shapeList:
-            s.update(timestamp)
             s.draw(ctx)
-    
-    config={
-    "ratio": 1.2,
-    "filename": "1-BiB-Slide.png",
-    }
-    main= DIV(id="action",style={"width": "100%", "height": "80%"})
-
-    document <= main
-    ww=main.offsetWidth
-
-    canvas = CANVAS(id="canvas" ,width = ww-40, height = ww * 2 /3.0 )
-    ctx = canvas.getContext('2d')
-    #ctx.globalCompositeOperation='source-out'
-    main <= canvas
-
-    c2=CANVAS(id="c2" ,width = 300, height = 300 )
-    makeStar(c2)
-    size=Point(c2.width,c2.height)
-    
-    shapeList.append(Shape(c2,size,Point(500,500),offset=Point(150,150)))
-    shapeList.append(Shape(c2,size,Point(100,100),offset=Point(150,150)))
-    #shapeList.append(Shape(c2,size,Point(600,600),offset=Point(150,150)))
-    
-
-    
-    def drawFrame (timestamp):
-        #window.requestAnimationFrame(drawFrame)
-        displayPic(timestamp)
-        
-        
+            s.update(timestamp)
     drawFrame(0)
 
+def yes(id):
+    text="Yes!"
+    canvas=CANVAS(id=id+"_c1" ,width = 400, height =100)
+    
+    c2=CANVAS(id=id+"_c2" ,width = 100, height = 100 )
+    makeStar(c2,0.3)
+   
+    c3=CANVAS(id=id+"_c3" ,width = 200, height = 100 )
+    
+    ctx = c3.getContext('2d')
+    #ctx.fillStyle= "transparent"
+    #ctx.fillRect(0,0,c3.width,c3.height)
+    #ctx.strokeRect(0,0,c3.width,c3.height)
+    
+    ctx.fillStyle="yellow"
+    ctx.lineWidth=4
+    ctx.strokeStyle = "red";
+    
+    ctx.font = "80px arial black"
+    
+    ctx.fillText(text,10,c3.height - 15)
+    ctx.strokeText(text,10,c3.height - 15)
+    
+    loadPopup2(id,canvas,[
+        Shape(c2,Point(c2.width,c2.height),Point(0,0),rotation=0.05),
+        Shape(c2,Point(c2.width,c2.height),Point(300,0),rotation= 0.05 ),
+        Shape(c3,Point(c3.width,c3.height),Point(100,0))
+    ])
 
+def sadFace(canvas):
+    ctx = canvas.getContext('2d')
+    ctx.scale(0.8,0.8)
+    ctx.fillStyle= "transparent"
+    ctx.fillRect(0,0,canvas.width,canvas.height)
+    #ctx.strokeRect(0,0,canvas.width,canvas.height)
+    ctx.fillStyle="yellow"
+    ctx.lineWidth=8
+    ctx.strokeStyle = "red";
+    ctx.arc(50,50,25,0,2*math.pi)
+    ctx.stroke()
+    ctx.fill()
+    ctx.beginPath()
+    ctx.lineWidth=1
+    ctx.strokeStyle = "black";
+    ctx.arc(50,65, 10, 1.2*math.pi, 1.8*math.pi)
+    ctx.stroke()
+
+    ctx.lineWidth=1
+    ctx.fillStyle= "black"
+    
+    ctx.beginPath()
+    ctx.arc(40,45, 2, 0, 2*math.pi)
+    ctx.stroke()
+    ctx.fill()
+    
+    ctx.beginPath()
+    ctx.arc(60,45, 2, 0, 2*math.pi)
+    ctx.stroke()
+    ctx.fill()
+    
+def wrong(id):
+    text="Wrong!"
+    canvas=CANVAS(id=id+"_c1" ,width = 400, height =100)
+    
+    c2=CANVAS(id=id+"_c2" ,width = 100, height = 100 )
+    sadFace(c2)
+   
+    c3=CANVAS(id=id+"_c3" ,width = 400, height = 100 )
+    
+    ctx = c3.getContext('2d')
+    
+    ctx.fillStyle="yellow"
+    ctx.lineWidth=4
+    ctx.strokeStyle = "red";
+    
+    ctx.font = "80px arial black"
+    
+    ctx.fillText(text,10,c3.height - 20)
+    ctx.strokeText(text,10,c3.height - 20)
+    
+    loadPopup2(id,canvas,[
+        Shape(c3,Point(c3.width,c3.height),Point(50,0)),
+        Shape(c2,Point(c2.width,c2.height),Point(164,20),rotation=0),
+        #Shape(c2,Point(c2.width,c2.height),Point(300,0),rotation= 0.05 ),
+    ])
+    
+
+def finished(id):
+    def exit_popup(ev):
+        #id=ev.currentTarget.id
+        document[id].style["visibility"]="hidden"
+        for v in ["buttonleft","buttonright"]:
+            document[v].disabled=False
+            
+    text="Congratulations!"
+    canvas=CANVAS(id=id+"_c1" ,width = 400, height =200)
+    
+    c2=CANVAS(id=id+"_c2" ,width = 100, height = 100 )
+    makeStar(c2,0.3)
+   
+    c3=CANVAS(id=id+"_c3" ,width = 400, height = 100 )
+    
+    ctx = c3.getContext('2d')
+    canvas.bind("mousedown",exit_popup)
+    
+    #ctx.fillStyle= "transparent"
+    #ctx.fillRect(0,0,c3.width,c3.height)
+    #ctx.strokeRect(0,0,c3.width,c3.height)
+    
+    ctx.fillStyle="black"
+    ctx.lineWidth=1
+    ctx.strokeStyle = "red";
+    
+    ctx.font = "40px verdana"
+    
+    ctx.fillText(text,22,c3.height - 70)
+    ctx.font = "20px verdana"
+    ctx.fillText("You have found all the words",20,c3.height - 30)
+    ctx.font = "10px verdana"
+    ctx.fillText("Click to Close",150,c3.height - 5)
+
+
+    #ctx.strokeText(text,10,c3.height - 15)
+    
+    loadPopup2(id,canvas,[
+        Shape(c2,Point(c2.width,c2.height),Point(0,0),rotation=0.05),
+        Shape(c2,Point(c2.width,c2.height),Point(300,0),rotation= 0.05 ),
+        Shape(c3,Point(c3.width,c3.height),Point(0,100))
+    ])
+
+    
+    
 class Bunch(object):
     """ Save the lines from slides.cvs file as attributes. Easier to handle """
     def __init__(self, adict):
