@@ -154,7 +154,7 @@ def loadPopup2(id,canvas,shapeList):
         'visibility': 'hidden' 
     }
     
-    document <= tooltip
+   
     def drawFrame (timestamp):
         window.requestAnimationFrame(drawFrame)
         ctx.clearRect(0, 0, canvas.width, canvas.height)
@@ -168,6 +168,7 @@ def loadPopup2(id,canvas,shapeList):
             s.draw(ctx)
             s.update(timestamp)
     drawFrame(0)
+    return tooltip
 
 def yes(id):
     text="Yes!"
@@ -192,10 +193,11 @@ def yes(id):
     ctx.fillText(text,10,c3.height - 15)
     ctx.strokeText(text,10,c3.height - 15)
     
-    loadPopup2(id,canvas,[
+    return loadPopup2(id,canvas,[
         Shape(c2,Point(c2.width,c2.height),Point(0,0),rotation=0.05),
         Shape(c2,Point(c2.width,c2.height),Point(300,0),rotation= 0.05 ),
         Shape(c3,Point(c3.width,c3.height),Point(100,0))
+        
     ])
 
 def sadFace(canvas):
@@ -249,12 +251,30 @@ def wrong(id):
     ctx.fillText(text,10,c3.height - 20)
     ctx.strokeText(text,10,c3.height - 20)
     
-    loadPopup2(id,canvas,[
+    return loadPopup2(id,canvas,[
         Shape(c3,Point(c3.width,c3.height),Point(50,0)),
         Shape(c2,Point(c2.width,c2.height),Point(164,20),rotation=0),
         #Shape(c2,Point(c2.width,c2.height),Point(300,0),rotation= 0.05 ),
     ])
     
+def loadPopup3(id,canvas,shapeList):
+    ctx = canvas.getContext('2d')
+    tooltip=DIV(canvas, id=id, Class="ssborder" )
+   
+    def drawFrame (timestamp):
+        window.requestAnimationFrame(drawFrame)
+        ctx.clearRect(0, 0, canvas.width, canvas.height)
+        ctx.strokeRect(0,0,canvas.width,canvas.height)
+        ctx.fillStyle= "#99f9ea"
+        ctx.fillRect(0,0,canvas.width,canvas.height)
+        
+        """ Draw shapes and update """
+        
+        for s in shapeList:
+            s.draw(ctx)
+            s.update(timestamp)
+    drawFrame(0)
+    return tooltip
 
 def finished(id):
     def exit_popup(ev):
@@ -272,11 +292,7 @@ def finished(id):
     c3=CANVAS(id=id+"_c3" ,width = 400, height = 100 )
     
     ctx = c3.getContext('2d')
-    canvas.bind("mousedown",exit_popup)
-    
-    #ctx.fillStyle= "transparent"
-    #ctx.fillRect(0,0,c3.width,c3.height)
-    #ctx.strokeRect(0,0,c3.width,c3.height)
+#    canvas.bind("mousedown",exit_popup)
     
     ctx.fillStyle="black"
     ctx.lineWidth=1
@@ -287,13 +303,8 @@ def finished(id):
     ctx.fillText(text,22,c3.height - 70)
     ctx.font = "20px verdana"
     ctx.fillText("You have found all the words",20,c3.height - 30)
-    ctx.font = "10px verdana"
-    ctx.fillText("Click to Close",150,c3.height - 5)
-
-
-    #ctx.strokeText(text,10,c3.height - 15)
     
-    loadPopup2(id,canvas,[
+    return loadPopup3(id,canvas,[
         Shape(c2,Point(c2.width,c2.height),Point(0,0),rotation=0.05),
         Shape(c2,Point(c2.width,c2.height),Point(300,0),rotation= 0.05 ),
         Shape(c3,Point(c3.width,c3.height),Point(0,100))

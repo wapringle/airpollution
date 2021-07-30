@@ -1,5 +1,5 @@
 config= \
-[{None: ['1', 'The Earth is surrounded…'],
+[{None: ['1', 'The Earth is surrounded'],
   'filename': '1-BiB-Slide.png',
   'highlights': [{'brx_pc': '10',
                   'bry_pc': '34',

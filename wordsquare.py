@@ -1,8 +1,10 @@
 from browser import document, html, alert
 from browser.html import *
 
+from browser.widgets.dialog import InfoDialog, Dialog
 
 from WordSearch import WordSearch
+import stars
 
 def myalert(txt):
   def display(disp):
@@ -55,6 +57,8 @@ def frontPage():
   document["Right2"] <= r
   #r.bind("click",shift_right)
   r.bind("mousedown",shift_right)
+  
+  
 
   main= DIV(id="action",style={"width": "100%", "height": "80%"})
   document["Main"] <= main
@@ -150,13 +154,39 @@ def on_mouse_leave(ev):
     #document[id].style.backgroundColor=cell.status.background()
 
 def show_finished():
-  #myalert("Congratulations! You found all the words")
+  #InfoDialog("Congratulations!", "You found all the words")
+  
+  d = Dialog("Test", ok_cancel=False)
+  
+  d.panel <= stars.finished("popupfinished")
+
+  
+  """
+  style = dict(textAlign="center", paddingBottom="1em")
+  
+  d.panel <= html.DIV("Name " + html.INPUT(), style=style)
+  d.panel <= html.DIV("Language " +
+                      html.SELECT(html.OPTION(k) for k in translations),
+                        style=style)
+  
+  # Event handler for "Ok" button
+  @bind(d.ok_button, "click")
+  def ok(ev):
+    ""InfoDialog with text depending on user entry, at the same position as the
+    original box.""
+    language = d.select_one("SELECT").value
+    prompt = translations[language]
+    name = d.select_one("INPUT").value
+    left, top = d.scrolled_left, d.scrolled_top
+    d.close()
+    d3 = InfoDialog("Test", f"{prompt}, {name} !", left=left, top=top)  
   document["popupfinished"].style["top"]='200px'
   document["popupfinished"].style["left"]='400px'
   document["popupfinished"].style.visibility='visible'
   document["buttonleft"].disabled=True
   document["buttonright"].disabled=True
-
+"""
+  
 
 def dblclick(ev):
   show_finished()
@@ -226,6 +256,9 @@ def showPuzzle():
 
 def load():
   frontPage()
+  document["action"] <= showPuzzle()
+  show_finished()
   
-  
-  
+if False:
+    load()  
+    show_finished()

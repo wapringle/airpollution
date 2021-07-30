@@ -73,9 +73,9 @@ def frontPage():
     #r.bind("click",shift_right)
     r.bind("mousedown",shift_right)
 
-    stars.yes("popupyes")
-    stars.wrong("popupwrong")
-    stars.finished("popupfinished")
+    document <=stars.yes("popupyes")
+    document <=stars.wrong("popupwrong")
+    #stars.finished("popupfinished")
     
     
     main= DIV(id="action",style={"width": "100%", "height": "80%"})
